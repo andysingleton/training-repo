@@ -1,0 +1,55 @@
+#!/bin/bash
+#
+# turret                Start the turret demo service
+#
+# pidfile: /var/run/sshd.pid
+### BEGIN INIT INFO
+# Provides: turret
+# Required-Start: $local_fs $network $syslog
+# Required-Stop: $local_fs $syslog
+# Should-Start: $syslog
+# Should-Stop: $network $syslog
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: Start up the turret demo service
+# Description:       Turret is a simple Flask app
+### END INIT INFO
+
+RETVAL=0
+COMM="gunicorn"
+OPTIONS="turret:app -b 0.0.0.0:8080 --daemon"
+prog="turret"
+
+if [ -f /etc/rc.d/init.d/functions ]; then
+  . /etc/rc.d/init.d/functions
+fi
+ 
+runlevel=$(set -- $(runlevel); eval "echo \$$#" )
+start()
+{
+        echo -n $"Starting $prog: "
+        cd /usr/sbin && $COMM $OPTIONS && success || failure
+        RETVAL=$?
+        echo
+        return $RETVAL
+}
+stop()
+{
+        echo -n $"Stopping $prog: "
+        pkill $COMM && success || failure
+        RETVAL=$?
+        echo
+        return $RETVAL
+}
+case "$1" in
+        start)
+                start
+                ;;
+        stop)
+                stop
+                ;;
+        *)
+                echo $"Usage: $0 {start|stop}"
+                RETVAL=2
+esac
+exit $RETVAL
