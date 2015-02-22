@@ -1,0 +1,24 @@
+Install puppet-master
+Run the master once to generate certs
+Based on: https://docs.puppetlabs.com/guides/passenger.html
+sudo yum install httpd httpd-devel mod_ssl ruby-devel rubygems gcc  gcc-c++ libcurl-devel openssl-devel zlib-devel
+sudo gem install rack passenger
+Add swap
+passenger-install-apache2-module
+
+to /etc/httpd/conf.d/passenger.conf
+   LoadModule passenger_module /usr/lib/ruby/gems/1.8/gems/passenger-4.0.59/buildout/apache2/mod_passenger.so
+   <IfModule mod_passenger.c>
+     PassengerRoot /usr/lib/ruby/gems/1.8/gems/passenger-4.0.59
+     PassengerDefaultRuby /usr/bin/ruby
+   </IfModule>
+
+mkdir -p /usr/share/puppet/rack/puppetmasterd
+mkdir /usr/share/puppet/rack/puppetmasterd/public /usr/share/puppet/rack/puppetmasterd/tmp
+cp /usr/share/puppet/ext/rack/config.ru /usr/share/puppet/rack/puppetmasterd/
+chown puppet:puppet /usr/share/puppet/rack/puppetmasterd/config.ru
+cp /usr/share/puppet/ext/rack/example-passenger-vhost.conf /etc/httpd/conf.
+d/
+Copy in demo files: passenger.conf and passenger-vhost
+setenforce 0
+httpd restart
