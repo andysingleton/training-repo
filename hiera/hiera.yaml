@@ -1,17 +1,14 @@
 ---
 :backends:
   - yaml
-:eyaml:
-  :datadir: hieradata
-  :extension: 'yaml'
+:yaml:
+  :datadir: “/etc/puppet/hieradata”
 :hierarchy:
-  # Data for a given environment overrides defaults
   - "%{::environment}/%{::hostname}"
   - "%{::environment}/role.%{::role}"
   - "%{::environment}/mod.%{module_name}"
   - "%{::environment}/common"
 
-  # Common to all environments
   - "role.%{::role}"
   - "mod.%{module_name}"
   - common
