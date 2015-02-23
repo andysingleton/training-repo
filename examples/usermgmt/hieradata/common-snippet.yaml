@@ -1,0 +1,14 @@
+usermgmt::enable_user_clean: true
+usermgmt::userlist:
+  'daveb':
+    fullname: 'Dave Blah'
+    email: 'daveblah@example.com'
+    ssh_pub_keys:
+      - 'ssh-rsa my key info'
+    groups: ['admin']
+  'bobbyt':
+    fullname: 'Bobby Tables'
+    email: 'bobbytables@example.com'
+    ssh_pub_keys:
+      - 'ssh-rsa my key info'
+
