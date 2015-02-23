@@ -1,0 +1,30 @@
+Step-by-step for installing Passenger Rack application of Puppetmaster on Centos
+Based on: https://docs.puppetlabs.com/guides/passenger.html
+
+Ensure Puppet Master is installed
+Run the master once to generate certificates
+
+yum install httpd httpd-devel mod_ssl ruby-devel rubygems gcc  gcc-c++ libcurl-devel openssl-devel zlib-devel
+gem install rack passenger
+
+# Add swap for small-servers
+dd if=/dev/zero of=/swap bs=1M count=1024
+mkswap /swap
+swapon /swap
+
+# Compile the passenger module
+sudo passenger-install-apache2-module
+
+# Create the rack directory structure and populate it
+mkdir -p /usr/share/puppet/rack/puppetmasterd/public /usr/share/puppet/rack/puppetmasterd/tmp
+cp /usr/share/puppet/ext/rack/config.ru /usr/share/puppet/rack/puppetmasterd/
+chown puppet:puppet /usr/share/puppet/rack/puppetmasterd/config.ru
+
+# Copy in training-repo apache configs
+cp ~/training-repo/passenger/passenger.conf /etc/httpd/conf.d/
+cp ~/training-repo/passenger/passenger-vhost.conf /etc/httpd/conf.d/
+
+# Allow selinux access (or disable it for demo purposes)
+setenforce 0
+
+service httpd restart
