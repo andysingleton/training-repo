@@ -1,0 +1,10 @@
+---
+classes:
+ - repo_manager
+ - core_packages
+
+repo_manager::name: 'private_repo'
+repo_manager::baseurl: 'http://yourrepoaddress/pub/centos/stable/'
+repo_manager::desc: 'Default Private repository'
+repo_manager::enabled: true
+repo_manager::gpgcheck: false

@@ -1,0 +1,5 @@
+repo_manager::name: 'remote_repo'
+repo_manager::baseurl: 'http://yourrepoaddress/pub/centos/stable/'
+repo_manager::desc: 'remote Private repository'
+repo_manager:enabled: true
+repo_manager::gpgcheck: false
